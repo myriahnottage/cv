@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Contact Me</title>
+</head>
+
+<body>
+  <h3>Contact Me</h3>
+  <p>I'm on <a href="https://discord.com/">Discord</a> as myriahcodes#5728, but you can also send me a message here:</p>
+  <form onsubmit="sendContact(event)">
+    <table>
+      <tr>
+        <td>
+          <label for="nameInput">Name:</label>
+        </td>
+        <td>
+          <input type="text" id="nameInput" name="nameInput" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="emailInput">E-mail:</label>
+        </td>
+        <td>
+          <input type="email" id="emailInput" name="emailInput" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="messageInput">Message:</label>
+        </td>
+        <td>
+          <textarea id="messageInput" name="messageInput" rows="4" cols="30"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <button type="submit">Send your message</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <script>
+    async function sendContact(ev) {
+      ev.preventDefault();
+
+      const senderName = document
+        .getElementById('nameInput').value;
+      const senderEmail = document
+        .getElementById('emailInput').value;
+      const senderMessage = document
+        .getElementById('messageInput').value;
+
+      const webhookBody = {
+        embeds: [{
+          title: 'Contact Form Submitted',
+          fields: [{
+              name: 'Name',
+              value: senderName
+            },
+            {
+              name: 'Sender',
+              value: senderEmail
+            },
+            {
+              name: 'Message',
+              value: senderMessage
+            }
+          ]
+        }],
+      };
+
+      const webhookUrl = 'https://discord.com/api/webhooks/1041203634425319495/CVa7cgCUwp5BedqBbc9RWSKHrjfhn48yciPZFl2bMOiAi0-aSzeOiXH3dTmSh8oya-Dr';
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(webhookBody),
+      });
+
+      if (response.ok) {
+        alert('I have received your message!');
+      } else {
+        alert('There was an error! Try again later!');
+      }
+    }
+  </script>
+</body>
+
+</html>
